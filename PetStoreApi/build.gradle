@@ -1,0 +1,94 @@
+
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+
+    dependencies {
+        classpath "net.serenity-bdd:serenity-gradle-plugin:4.0.46"
+        classpath "net.serenity-bdd:serenity-single-page-report:4.0.46"
+
+    }
+}
+
+plugins {
+    id 'java'
+    id 'idea'
+    id 'io.freefair.lombok' version '6.5.1'
+    id 'net.serenity-bdd.serenity-gradle-plugin' version '4.0.46'
+}
+
+defaultTasks 'clean', 'test', 'aggregate'
+
+repositories {
+    mavenCentral()
+}
+
+
+group = 'io.swagger.petstore'
+version = '1.0-SNAPSHOT'
+
+setSourceCompatibility JavaVersion.VERSION_17
+setTargetCompatibility JavaVersion.VERSION_17
+
+wrapper {
+    gradleVersion = '8.2.1'
+}
+
+ext {
+    slf4jVersion = '2.0.7'
+    serenityCoreVersion = '4.2.9'
+    junitVersion = '4.13.2'
+    assertJVersion = '3.24.2'
+    jacksonAnnotations = '2.15.2'
+    lombokVersion = '1.18.24'
+    javaFakerVersion = '1.0.2'
+    serenityRestVersion ='4.0.14'
+    restAssuredVersion = '5.3.0'
+}
+
+dependencies {
+    implementation "junit:junit:${junitVersion}"
+    implementation "org.projectlombok:lombok:${lombokVersion}",
+            "com.fasterxml.jackson.core:jackson-annotations:${jacksonAnnotations}",
+            "com.github.javafaker:javafaker:${javaFakerVersion}",
+            "net.serenity-bdd:serenity-screenplay-rest:${serenityRestVersion}",
+            "io.rest-assured:rest-assured:${restAssuredVersion}",
+            "net.serenity-bdd:serenity-junit:${serenityCoreVersion}"
+
+    implementation "net.serenity-bdd:serenity-ensure:${serenityCoreVersion}"
+    testImplementation "net.serenity-bdd:serenity-core:${serenityCoreVersion}",
+            "org.slf4j:slf4j-simple:${slf4jVersion}",
+            "net.serenity-bdd:serenity-cucumber:${serenityCoreVersion}",
+            "net.serenity-bdd:serenity-screenplay:${serenityCoreVersion}",
+            "net.serenity-bdd:serenity-ensure:${serenityCoreVersion}",
+            "junit:junit:${junitVersion}",
+            "org.assertj:assertj-core:${assertJVersion}"
+
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+gradle.startParameter.continueOnFailure = true
+
+test.finalizedBy(aggregate)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
